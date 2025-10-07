@@ -1,0 +1,90 @@
+{% extends "bases/public.html" %}
+
+{% block title %}Home - Creative Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">Welcome to My Creative Portfolio</h1>
+                <p class="lead mb-4">
+                    Showcasing innovative designs, creative solutions, and passionate work. 
+                    Let's bring your vision to life.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('main.about') }}" class="btn btn-light btn-lg">Learn More</a>
+                    <a href="{{ url_for('main.contact') }}" class="btn btn-outline-light btn-lg">Get in Touch</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image p-4">
+                    <div class="bg-white rounded shadow-lg p-5 text-center">
+                        <h3 class="text-dark">Creative Excellence</h3>
+                        <p class="text-muted">Delivering quality work since 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">What I Offer</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-palette" viewBox="0 0 16 16">
+                                <path d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM5.5 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                <path d="M16 8c0 3.15-1.866 2.585-3.567 2.07C11.42 9.763 10.465 9.473 10 10c-.603.683-.475 1.819-.351 2.92C9.826 14.495 9.996 16 8 16a8 8 0 1 1 8-8zm-8 7c.611 0 .654-.171.655-.176.078-.146.124-.464.07-1.119-.014-.168-.037-.37-.061-.591-.052-.464-.112-1.005-.118-1.462-.01-.707.083-1.61.704-2.314.417-.463.896-.708 1.367-.931.528-.251 1.07-.509 1.545-.98.476-.472.734-1.014.985-1.542.223-.471.468-.95.931-1.367.704-.621 1.607-.714 2.314-.704.457.006.998.066 1.462.118.221.024.423.047.591.061.655.054.973.008 1.119-.07.005-.001.176-.044.176-.655a7 7 0 1 0-14 0z"/>
+                            </svg>
+                        </div>
+                        <h4>Creative Design</h4>
+                        <p class="text-muted">Beautiful, user-centered designs that captivate and engage your audience.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
+                                <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
+                            </svg>
+                        </div>
+                        <h4>Web Development</h4>
+                        <p class="text-muted">Clean, efficient code built with modern technologies and best practices.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-lightning-charge" viewBox="0 0 16 16">
+                                <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41 4.157 8.5z"/>
+                            </svg>
+                        </div>
+                        <h4>Fast Delivery</h4>
+                        <p class="text-muted">Quick turnaround times without compromising on quality or attention to detail.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta bg-light py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Start Your Project?</h2>
+        <p class="lead mb-4">Let's collaborate and create something amazing together.</p>
+        <a href="{{ url_for('main.contact') }}" class="btn btn-primary btn-lg">Contact Me</a>
+    </div>
+</section>
+{% endblock %}
