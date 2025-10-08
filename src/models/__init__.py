@@ -15,19 +15,13 @@ from .user import User
 from .coat_hanger import CoatHanger
 from .contact_message import ContactMessage
 
-__all__ = [
-    'db',
-    'BaseModel', 
-    'User',
-    'CoatHanger',
-    'ContactMessage'
-]
+__all__ = ["db", "BaseModel", "User", "CoatHanger", "ContactMessage"]
 
 
 def init_db():
     """
     Initialize database tables.
-    
+
     Creates all tables defined by the models.
     Should be called during application setup.
     """
@@ -37,7 +31,7 @@ def init_db():
 def drop_db():
     """
     Drop all database tables.
-    
+
     WARNING: This will delete all data.
     Only use in development/testing.
     """
@@ -47,7 +41,7 @@ def drop_db():
 def reset_db():
     """
     Reset database by dropping and recreating all tables.
-    
+
     WARNING: This will delete all data.
     Only use in development/testing.
     """
