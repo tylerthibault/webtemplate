@@ -1,128 +1,45 @@
-"""
-Custom decorators for authentication and authorization.
-
-Implements login_required decorator without Flask-Login.
-Following constitutional principles - logic layer handles auth checks.
-"""
-
 from functools import wraps
-from flask import redirect, url_for, jsonify, request
-from src.logic.auth_service import AuthService
-
+from flask import session, redirect, url_for, request, g
+from src.models.coat_hanger import CoatHanger
+from src import db
+from datetime import datetime, timedelta
 
 def login_required(f):
     """
-    Decorator to require authentication for routes.
+    Decorator that requires user authentication to access protected routes.
     
-    Checks if user has valid session via AuthService.
-    Redirects to login page for HTML requests, returns 401 for JSON.
-    
-    Usage:
-        @app.route('/dashboard')
-        @login_required
-        def dashboard():
-            return render_template('dashboard.html')
-    
-    Args:
-        f: Function to decorate
-        
-    Returns:
-        Decorated function that checks authentication
+    Checks for valid session token in database and handles session timeout.
+    Redirects to login page if authentication fails.
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Check if user is authenticated
-        if not AuthService.is_authenticated():
-            # Check if this is a JSON request or client wants JSON response
-            wants_json = (
-                request.is_json or 
-                request.headers.get('Content-Type') == 'application/json' or
-                request.accept_mimetypes.best_match(['application/json', 'text/html']) == 'application/json' or
-                request.path.startswith('/api/')  # API endpoints always return JSON
-            )
-            
-            if wants_json:
-                return jsonify({
-                    'success': False,
-                    'message': 'Authentication required',
-                    'authenticated': False
-                }), 401
-            
-            # Redirect to login page for HTML requests
+        # Check if session token exists
+        session_token = session.get('session_token')
+        if not session_token:
             return redirect(url_for('auth.login'))
         
-        # User is authenticated, proceed with the request
-        return f(*args, **kwargs)
-    
-    return decorated_function
-
-
-def guest_only(f):
-    """
-    Decorator to restrict routes to non-authenticated users only.
-    
-    Redirects authenticated users to dashboard.
-    Useful for login/register pages that should not be accessible when logged in.
-    
-    Usage:
-        @app.route('/login')
-        @guest_only
-        def login():
-            return render_template('login.html')
-    
-    Args:
-        f: Function to decorate
-        
-    Returns:
-        Decorated function that checks authentication
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        # Check if user is authenticated
-        if AuthService.is_authenticated():
-            # User is already logged in, redirect to dashboard
-            return redirect(url_for('main.dashboard'))
-        
-        # User is not authenticated, proceed with the request
-        return f(*args, **kwargs)
-    
-    return decorated_function
-
-
-def admin_required(f):
-    """
-    Decorator to require admin privileges.
-    
-    Note: This is a placeholder for future admin functionality.
-    Currently just checks for authentication.
-    
-    Usage:
-        @app.route('/admin/users')
-        @admin_required
-        def manage_users():
-            return render_template('admin/users.html')
-    
-    Args:
-        f: Function to decorate
-        
-    Returns:
-        Decorated function that checks admin authorization
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        # Check if user is authenticated first
-        if not AuthService.is_authenticated():
-            if request.is_json or request.headers.get('Content-Type') == 'application/json':
-                return jsonify({
-                    'success': False,
-                    'message': 'Authentication required',
-                    'authenticated': False
-                }), 401
-            
+        # Validate session token in database
+        coat_hanger = CoatHanger.query.filter_by(session_hash=session_token).first()
+        if not coat_hanger:
+            session.clear()
             return redirect(url_for('auth.login'))
         
-        # TODO: Add actual admin role checking when user roles are implemented
-        # For now, all authenticated users have admin access
+        # Check session timeout (10 minutes)
+        timeout_threshold = datetime.utcnow() - timedelta(minutes=10)
+        if coat_hanger.updated_at < timeout_threshold:
+            # Session expired - clean up
+            db.session.delete(coat_hanger)
+            db.session.commit()
+            session.clear()
+            return redirect(url_for('auth.login'))
+        
+        # Update session timestamp
+        coat_hanger.updated_at = datetime.utcnow()
+        db.session.commit()
+        
+        # Store user info in g for use in templates and logic
+        g.current_user_id = coat_hanger.user_id
+        g.current_user_data = coat_hanger.user_data
         
         return f(*args, **kwargs)
     
