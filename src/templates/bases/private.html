@@ -1,5 +1,42 @@
 {% extends 'bases/main.html' %}
 
-{% block content %}
-    
-{% endblock content %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .private-layout {
+            position: sticky;
+            top: 0;
+            display: flex;
+            min-height: 100vh;   
+            background-color: #343a40;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        </style>
+{% endblock styles %}
+
+{% block page_wrapper %}
+    <div class="private-layout">
+        {% block nav %}
+        {% include 'private/00_private_components/sidenav.html' %}
+        {% endblock nav %}
+
+        <div class="main-content bg-light" id="mainContent">
+            <div class="content-wrapper">
+                {% block content %}
+
+                {% endblock content %}
+            </div>
+
+            {% block footer %}
+
+            {% endblock footer %}
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+{% endblock page_wrapper %}

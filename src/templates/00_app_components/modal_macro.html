@@ -1,0 +1,221 @@
+{#
+    Custom Modal Macro for Flask Application
+    
+    This macro creates a fully functional modal without Bootstrap dependencies.
+    It includes support for different sizes, types, and customizable content.
+    
+    Usage:
+    {{ modal(
+        id='myModal',
+        title='Modal Title',
+        body='Modal content goes here',
+        size='md',
+        type='primary',
+        show_close=true,
+        footer_buttons=[
+            {'text': 'Cancel', 'type': 'secondary', 'action': 'close'},
+            {'text': 'Save', 'type': 'primary', 'action': 'submit'}
+        ]
+    ) }}
+#}
+
+{% macro modal(
+    id,
+    title='',
+    body='',
+    size='md',
+    type='primary',
+    show_close=true,
+    footer_buttons=none,
+    backdrop_close=true,
+    escape_close=true,
+    animation=true,
+    custom_classes='',
+    data_attributes={}
+) %}
+
+<div 
+    class="app-modal {{ 'app-modal-animated' if animation else '' }} {{ custom_classes }}"
+    id="{{ id }}"
+    role="dialog"
+    aria-labelledby="{{ id }}-title"
+    aria-describedby="{{ id }}-body"
+    aria-modal="true"
+    data-modal-backdrop="{{ 'true' if backdrop_close else 'false' }}"
+    data-modal-escape="{{ 'true' if escape_close else 'false' }}"
+    {% for key, value in data_attributes.items() %}
+        data-{{ key }}="{{ value }}"
+    {% endfor %}
+    style="display: none;"
+>
+    <!-- Modal Backdrop -->
+    <div class="app-modal-backdrop"></div>
+    
+    <!-- Modal Container -->
+    <div class="app-modal-container">
+        <div class="app-modal-dialog app-modal-{{ size }} app-modal-{{ type }}">
+            <!-- Modal Header -->
+            {% if title or show_close %}
+            <div class="app-modal-header">
+                {% if title %}
+                <h3 class="app-modal-title" id="{{ id }}-title">{{ title }}</h3>
+                {% endif %}
+                
+                {% if show_close %}
+                <button 
+                    type="button" 
+                    class="app-modal-close-btn"
+                    data-modal-close="{{ id }}"
+                    aria-label="Close modal"
+                >
+                    <svg class="app-modal-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <!-- Modal Body -->
+            <div class="app-modal-body" id="{{ id }}-body">
+                {{ body|safe }}
+            </div>
+            
+            <!-- Modal Footer -->
+            {% if footer_buttons %}
+            <div class="app-modal-footer">
+                {% for button in footer_buttons %}
+                <button 
+                    type="button"
+                    class="app-modal-btn app-modal-btn-{{ button.type or 'secondary' }}"
+                    {% if button.action == 'close' %}
+                        data-modal-close="{{ id }}"
+                    {% elif button.action == 'submit' %}
+                        data-modal-submit="{{ id }}"
+                    {% endif %}
+                    {% if button.id %}id="{{ button.id }}"{% endif %}
+                    {% if button.disabled %}disabled{% endif %}
+                    {% for key, value in (button.data or {}).items() %}
+                        data-{{ key }}="{{ value }}"
+                    {% endfor %}
+                >
+                    {{ button.text }}
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endmacro %}
+
+{#
+    Quick Modal Macro - For simple confirmation dialogs
+    
+    Usage:
+    {{ quick_modal(
+        id='confirmDelete',
+        title='Confirm Delete',
+        message='Are you sure you want to delete this item?',
+        confirm_text='Delete',
+        confirm_type='danger'
+    ) }}
+#}
+
+{% macro quick_modal(
+    id,
+    title,
+    message,
+    confirm_text='Confirm',
+    cancel_text='Cancel',
+    confirm_type='primary',
+    size='sm'
+) %}
+
+{{ modal(
+    id=id,
+    title=title,
+    body='<p class="app-modal-message">' + message + '</p>',
+    size=size,
+    type=confirm_type,
+    footer_buttons=[
+        {'text': cancel_text, 'type': 'secondary', 'action': 'close'},
+        {'text': confirm_text, 'type': confirm_type, 'action': 'submit'}
+    ]
+) }}
+
+{% endmacro %}
+
+{#
+    Form Modal Macro - For modals containing forms
+    
+    Usage:
+    {{ form_modal(
+        id='userForm',
+        title='Add User',
+        form_content=form_html,
+        submit_text='Save User'
+    ) }}
+#}
+
+{% macro form_modal(
+    id,
+    title,
+    form_content,
+    submit_text='Submit',
+    cancel_text='Cancel',
+    submit_type='primary',
+    size='md'
+) %}
+
+{{ modal(
+    id=id,
+    title=title,
+    body='<form id="' + id + '-form" class="app-modal-form">' + form_content + '</form>',
+    size=size,
+    type=submit_type,
+    footer_buttons=[
+        {'text': cancel_text, 'type': 'secondary', 'action': 'close'},
+        {'text': submit_text, 'type': submit_type, 'action': 'submit', 'id': id + '-submit-btn'}
+    ]
+) }}
+
+{% endmacro %}
+
+{#
+    Loading Modal Macro - For showing loading states
+    
+    Usage:
+    {{ loading_modal(
+        id='loadingModal',
+        message='Processing your request...'
+    ) }}
+#}
+
+{% macro loading_modal(
+    id,
+    message='Loading...',
+    spinner_type='default'
+) %}
+
+{% set spinner_html %}
+<div class="app-modal-loading">
+    <div class="app-modal-spinner app-modal-spinner-{{ spinner_type }}"></div>
+    <p class="app-modal-loading-text">{{ message }}</p>
+</div>
+{% endset %}
+
+{{ modal(
+    id=id,
+    body=spinner_html,
+    size='sm',
+    type='primary',
+    show_close=false,
+    backdrop_close=false,
+    escape_close=false,
+    custom_classes='app-modal-loading-modal'
+) }}
+
+{% endmacro %}

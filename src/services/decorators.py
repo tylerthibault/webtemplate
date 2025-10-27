@@ -16,13 +16,13 @@ def login_required(f):
         # Check if session token exists
         session_token = session.get('session_token')
         if not session_token:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('user.login'))
         
         # Validate session token in database
         coat_hanger = CoatHanger.query.filter_by(session_hash=session_token).first()
         if not coat_hanger:
             session.clear()
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('user.login'))
         
         # Check session timeout (10 minutes)
         timeout_threshold = datetime.utcnow() - timedelta(minutes=10)
@@ -31,7 +31,7 @@ def login_required(f):
             db.session.delete(coat_hanger)
             db.session.commit()
             session.clear()
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('user.login'))
         
         # Update session timestamp
         coat_hanger.updated_at = datetime.utcnow()
@@ -39,7 +39,7 @@ def login_required(f):
         
         # Store user info in g for use in templates and logic
         g.current_user_id = coat_hanger.user_id
-        g.current_user_data = coat_hanger.user_data
+        g.current_user = coat_hanger.user
         
         return f(*args, **kwargs)
     

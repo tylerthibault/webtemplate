@@ -56,14 +56,15 @@ def configure_app(app):
 
 def setup_template_globals(app):
     """
-    Make app configuration available in Jinja templates.
-    Allows usage like {{ app_name }} or {{ version }} in templates.
+    Make app configuration and current user available in Jinja templates.
+    Allows usage like {{ app_name }} or {{ current_user }} in templates.
     
     Args:
         app (Flask): Flask application instance
     """
     @app.context_processor
     def inject_app_config():
+        from src.services.user_services import AuthService
         return {
             'app_name': app.config['APP_NAME'],
             'version': app.config['VERSION'],
@@ -71,19 +72,28 @@ def setup_template_globals(app):
             'description': app.config['DESCRIPTION'],
             'enable_user_registration': app.config['ENABLE_USER_REGISTRATION'],
             'enable_password_reset': app.config['ENABLE_PASSWORD_RESET'],
-            'default_theme': app.config['DEFAULT_THEME']
+            'default_theme': app.config['DEFAULT_THEME'],
+            'current_user': AuthService.get_current_user()
         }
 
 def init_db(app):
     """
     Initialize database with the Flask application.
+    Creates all tables if they don't exist by importing all models first.
     
     Args:
         app (Flask): Flask application instance
     """
     db.init_app(app)
     with app.app_context():
+        # Import all models so SQLAlchemy knows about them
+        from src.models.user_model import User
+        from src.models.coat_hanger import CoatHanger
+        from src.models.role_model import Role
+        
+        # Create all tables if they don't exist
         db.create_all()
+        print(f"Database initialized. Tables created if they didn't exist.")
 
 def register_blueprints(app):
     """
@@ -94,6 +104,8 @@ def register_blueprints(app):
     """
     blueprints = {
         'main': ('src.controllers.main', 'main_bp'),
+        'user': ('src.controllers.user_controller', 'user_bp'),
+        'superuser': ('src.controllers.superuser_controller', 'superuser_bp'),
     }
     
     for name, (module_path, blueprint_name) in blueprints.items():

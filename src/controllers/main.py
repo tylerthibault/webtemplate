@@ -1,11 +1,17 @@
 from flask import Blueprint, redirect, render_template, request, jsonify, url_for, flash
-# from src.logic.decorators import login_required
-# TODO
+from src.services.decorators import login_required
 from src.utils.csrf_utils import generate_csrf_token, validate_csrf_token
 
 # Create main blueprint
 main_bp = Blueprint('main', __name__)
 
+@main_bp.route('/seed')
+def seed():
+    """Seed database with initial data."""
+    table_to_seed = request.args.get('table', 'all')
+    from src.utils.seed_utils import seed_tables
+    seed_tables.run(table_to_seed)
+    return jsonify({"message": "Database seeded!"})
 
 @main_bp.route('/')
 def index():
@@ -70,7 +76,7 @@ def faq():
 
 
 @main_bp.route('/dashboard')
-# @login_required
+@login_required
 def dashboard():
     """User dashboard - private authenticated page."""
     csrf_token = generate_csrf_token()
@@ -82,7 +88,7 @@ def dashboard():
 
 
 @main_bp.route('/profile')
-# @login_required
+@login_required
 def profile():
     """User profile page - private authenticated page."""
     csrf_token = generate_csrf_token()
@@ -90,3 +96,25 @@ def profile():
         'csrf_token': csrf_token
     }
     return render_template('private/profile/index.html', **context)
+
+
+@main_bp.route('/tab-demo')
+@login_required
+def tab_demo():
+    """Tab component demonstration page."""
+    csrf_token = generate_csrf_token()
+    context = {
+        'csrf_token': csrf_token
+    }
+    return render_template('private/tab_demo.html', **context)
+
+
+@main_bp.route('/modal-demo')
+@login_required
+def modal_demo():
+    """Modal component demonstration page."""
+    csrf_token = generate_csrf_token()
+    context = {
+        'csrf_token': csrf_token
+    }
+    return render_template('private/modal_demo.html', **context)

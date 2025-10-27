@@ -1,0 +1,351 @@
+{% extends 'bases/private.html' %}
+{% from '00_app_components/modal_macro.html' import modal, quick_modal, form_modal, loading_modal %}
+
+{% block title %}Modal Demo{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Custom Modal System Demo</h1>
+            <p class="text-muted mb-5">
+                This page demonstrates the custom modal system that doesn't depend on Bootstrap.
+                All modals are fully accessible, keyboard navigable, and responsive.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Basic Modals -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Basic Modals</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary" data-modal-target="basicModal">
+                            Open Basic Modal
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" data-modal-target="noCloseModal">
+                            Modal without Close Button
+                        </button>
+                        <button type="button" class="btn btn-outline-info" data-modal-target="largeModal">
+                            Large Modal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Modals -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Quick Confirmation Modals</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-success" data-modal-target="confirmModal">
+                            Confirm Action
+                        </button>
+                        <button type="button" class="btn btn-warning" data-modal-target="warningModal">
+                            Warning Modal
+                        </button>
+                        <button type="button" class="btn btn-danger" data-modal-target="deleteModal">
+                            Delete Confirmation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Modals -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Form Modals</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary" data-modal-target="userFormModal">
+                            Add User Form
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" data-modal-target="contactFormModal">
+                            Contact Form
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Modals -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Special Modals</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-info" data-modal-target="loadingModal">
+                            Loading Modal
+                        </button>
+                        <button type="button" class="btn btn-outline-dark" onclick="createDynamicModal()">
+                            Create Dynamic Modal
+                        </button>
+                        <button type="button" class="btn btn-outline-success" onclick="showChainedModals()">
+                            Chained Modals
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Demo -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">JavaScript API Demo</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6>Open Modals</h6>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="ModalManager.open('basicModal')">
+                                    Open Basic Modal (JS)
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="ModalManager.open('confirmModal')">
+                                    Open Confirm Modal (JS)
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Close Modals</h6>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="ModalManager.close()">
+                                    Close All Modals
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-warning" onclick="ModalManager.close('basicModal')">
+                                    Close Basic Modal
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Toggle Modals</h6>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-info" onclick="ModalManager.toggle('basicModal')">
+                                    Toggle Basic Modal
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="ModalManager.toggle('loadingModal')">
+                                    Toggle Loading Modal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Definitions -->
+
+<!-- Basic Modal -->
+{{ modal(
+    id='basicModal',
+    title='Basic Modal Example',
+    body='<p>This is a basic modal with a title, body content, and footer buttons.</p><p>You can close it by clicking the X button, pressing Escape, or clicking outside the modal.</p>',
+    size='md',
+    type='primary',
+    footer_buttons=[
+        {'text': 'Close', 'type': 'secondary', 'action': 'close'},
+        {'text': 'Save Changes', 'type': 'primary', 'action': 'submit'}
+    ]
+) }}
+
+<!-- Modal without Close Button -->
+{{ modal(
+    id='noCloseModal',
+    title='Modal without Close Button',
+    body='<p>This modal can only be closed using the footer buttons or the Escape key.</p>',
+    size='md',
+    type='secondary',
+    show_close=false,
+    footer_buttons=[
+        {'text': 'Cancel', 'type': 'secondary', 'action': 'close'},
+        {'text': 'Confirm', 'type': 'primary', 'action': 'submit'}
+    ]
+) }}
+
+<!-- Large Modal -->
+{{ modal(
+    id='largeModal',
+    title='Large Modal Example',
+    body='<p>This is a large modal that takes up more screen space.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+    size='lg',
+    type='primary',
+    footer_buttons=[
+        {'text': 'Close', 'type': 'secondary', 'action': 'close'}
+    ]
+) }}
+
+<!-- Quick Confirmation Modals -->
+{{ quick_modal(
+    id='confirmModal',
+    title='Confirm Action',
+    message='Are you sure you want to proceed with this action?',
+    confirm_text='Yes, Proceed',
+    confirm_type='success'
+) }}
+
+{{ quick_modal(
+    id='warningModal',
+    title='Warning',
+    message='This action may have unintended consequences. Please review before proceeding.',
+    confirm_text='I Understand',
+    confirm_type='warning'
+) }}
+
+{{ quick_modal(
+    id='deleteModal',
+    title='Confirm Delete',
+    message='This action cannot be undone. Are you sure you want to delete this item?',
+    confirm_text='Delete',
+    cancel_text='Keep',
+    confirm_type='danger'
+) }}
+
+<!-- Form Modals -->
+{% set user_form_content %}
+<div class="form-group">
+    <label for="userFullName">Full Name</label>
+    <input type="text" id="userFullName" name="full_name" class="form-control" required>
+</div>
+<div class="form-group">
+    <label for="userEmail">Email</label>
+    <input type="email" id="userEmail" name="email" class="form-control" required>
+</div>
+<div class="form-group">
+    <label for="userRole">Role</label>
+    <select id="userRole" name="role" class="form-control">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+        <option value="moderator">Moderator</option>
+    </select>
+</div>
+{% endset %}
+
+{{ form_modal(
+    id='userFormModal',
+    title='Add New User',
+    form_content=user_form_content,
+    submit_text='Create User',
+    submit_type='success'
+) }}
+
+{% set contact_form_content %}
+<div class="form-group">
+    <label for="contactSubject">Subject</label>
+    <input type="text" id="contactSubject" name="subject" class="form-control" required>
+</div>
+<div class="form-group">
+    <label for="contactMessage">Message</label>
+    <textarea id="contactMessage" name="message" class="form-control" rows="4" required></textarea>
+</div>
+<div class="form-group">
+    <label for="contactPriority">Priority</label>
+    <select id="contactPriority" name="priority" class="form-control">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="urgent">Urgent</option>
+    </select>
+</div>
+{% endset %}
+
+{{ form_modal(
+    id='contactFormModal',
+    title='Contact Support',
+    form_content=contact_form_content,
+    submit_text='Send Message',
+    submit_type='primary'
+) }}
+
+<!-- Loading Modal -->
+{{ loading_modal(
+    id='loadingModal',
+    message='Processing your request, please wait...'
+) }}
+
+<script>
+// Demo JavaScript functions
+function createDynamicModal() {
+    const modal = ModalManager.create({
+        id: 'dynamicModal' + Date.now(),
+        title: 'Dynamically Created Modal',
+        body: '<p>This modal was created using JavaScript!</p><p>Created at: ' + new Date().toLocaleString() + '</p>',
+        size: 'md',
+        type: 'success',
+        footerButtons: [
+            { text: 'Close', type: 'secondary', action: 'close' },
+            { text: 'Another Action', type: 'success', action: 'submit' }
+        ]
+    });
+    
+    modal.open();
+}
+
+function showChainedModals() {
+    // Open first modal
+    ModalManager.open('confirmModal');
+    
+    // Listen for the first modal's submit
+    document.getElementById('confirmModal').addEventListener('modalSubmit', function(e) {
+        // Close first modal
+        ModalManager.close('confirmModal');
+        
+        // Open second modal after a brief delay
+        setTimeout(() => {
+            ModalManager.open('basicModal');
+        }, 300);
+    }, { once: true });
+}
+
+// Event listeners for demo
+document.addEventListener('modalSubmit', function(e) {
+    console.log('Modal submitted:', e.detail);
+    
+    // Show a success message for form submissions
+    if (e.detail.modalId.includes('Form')) {
+        setTimeout(() => {
+            alert('Form submitted successfully! (This is just a demo)');
+            ModalManager.close(e.detail.modalId);
+        }, 1000);
+    }
+});
+
+document.addEventListener('modalFormSubmit', function(e) {
+    console.log('Form submitted:', e.detail);
+    
+    // Prevent default form submission for demo
+    e.preventDefault();
+    
+    // Simulate processing
+    setTimeout(() => {
+        alert('Form data processed! (This is just a demo)');
+        ModalManager.close(e.detail.modalId);
+    }, 2000);
+});
+
+document.addEventListener('modalOpen', function(e) {
+    console.log('Modal opened:', e.detail.modalId);
+});
+
+document.addEventListener('modalClose', function(e) {
+    console.log('Modal closed:', e.detail.modalId);
+});
+</script>
+{% endblock %}

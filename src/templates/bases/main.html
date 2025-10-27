@@ -9,12 +9,14 @@
         
     {% endblock head_content %}
 
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrapcss/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     {% block styles %}
         
     {% endblock styles %}
 </head>
 <body>
+
     {% block page_wrapper %}
     
         {% block nav %}
@@ -30,6 +32,11 @@
         {% endblock footer %}
     {% endblock page_wrapper %}
 
+    <!-- Flash Messages Component - Toast Notifications -->
+    {% include '00_app_components/flash.html' %}
+
+    <script src="{{ url_for('static', filename='js/bootstrapjs/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block scripts %}
         
     {% endblock scripts %}

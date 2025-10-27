@@ -1,26 +1,26 @@
 {% extends 'bases/public.html' %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrapcss/bootstrap.min.css') }}">
-    
-    <style>
-        .login-container {
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-        }
-        
-        .login-card {
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-primary);
-        }
-        
-        .brand-section {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-            color: var(--text-inverse);
-        }
-    </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrapcss/bootstrap.min.css') }}">
+
+<style>
+    .login-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .login-card {
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-primary);
+    }
+
+    .brand-section {
+        background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+        color: var(--text-inverse);
+    }
+</style>
 {% endblock styles %}
 
 {% block content %}
@@ -34,52 +34,42 @@
                         <div class="p-5 text-center w-100">
                             <h2 class="mb-4">Welcome Back!</h2>
                             <p class="lead mb-4">
-                                Sign in to access your dashboard and manage your {{ app_name|default('Flask MVC Template') }} account.
+                                Sign in to access your dashboard and manage your {{ app_name|default('Flask MVC
+                                Template') }} account.
                             </p>
                             <div class="mb-4">
                                 <h5 class="h6 mb-3">New to our platform?</h5>
-                                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-light">
+                                <a href="{{ url_for('user.register') }}" class="btn btn-outline-light">
                                     Create Account
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Login Form Side -->
                     <div class="col-md-6">
                         <div class="p-5">
                             <h3 class="mb-4">Sign In</h3>
-                            
-                            <!-- Flash Messages -->
-                            {% with messages = get_flashed_messages(with_categories=true) %}
-                                {% if messages %}
-                                    {% for category, message in messages %}
-                                        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                                            {{ message }}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endwith %}
-                            
-                            <form method="POST" action="{{ url_for('auth.login') }}">
+
+                            <form method="POST" action="{{ url_for('user.login') }}">
                                 <!-- CSRF Token -->
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                                
+
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control form-control-lg" id="email" name="email" required 
-                                           placeholder="Enter your email address" value="{{ request.form.get('email', '') }}">
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                        required placeholder="Enter your email address"
+                                        value="{{ request.form.get('email', '') }}">
                                     <div class="invalid-feedback">
                                         Please provide a valid email address.
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control form-control-lg" id="password" name="password" required 
-                                               placeholder="Enter your password">
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            name="password" required placeholder="Enter your password">
                                         <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                             <i class="fas fa-eye" id="toggleIcon"></i>
                                         </button>
@@ -88,35 +78,35 @@
                                         Password is required.
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
                                     <label class="form-check-label" for="remember_me">
                                         Remember me for 30 days
                                     </label>
                                 </div>
-                                
+
                                 <div class="d-grid mb-3">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         Sign In
                                     </button>
                                 </div>
-                                
+
                                 <div class="text-center">
-                                    <a href="{{ url_for('auth.forgot_password') }}" class="text-decoration-none">
+                                    <a href="{{ url_for('user.forgot_password') }}" class="text-decoration-none">
                                         Forgot your password?
                                     </a>
                                 </div>
                             </form>
-                            
+
                             <hr class="my-4">
-                            
+
                             <!-- Alternative Actions -->
                             <div class="text-center">
                                 <p class="mb-2">
                                     <small class="text-muted">Don't have an account?</small>
                                 </p>
-                                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary">
+                                <a href="{{ url_for('user.register') }}" class="btn btn-outline-primary">
                                     Create New Account
                                 </a>
                             </div>
@@ -124,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Additional Information -->
             <div class="row mt-4">
                 <div class="col-md-4 text-center mb-3">
@@ -152,72 +142,72 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script src="{{ url_for('static', filename='js/bootstrapjs/bootstrap.bundle.min.js') }}"></script>
-    
-    <script>
-        // Password toggle functionality
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const toggleIcon = document.getElementById('toggleIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
+<script src="{{ url_for('static', filename='js/bootstrapjs/bootstrap.bundle.min.js') }}"></script>
+
+<script>
+    // Password toggle functionality
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    });
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        let isValid = true;
+
+        // Email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value || !emailPattern.test(email.value)) {
+            email.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            email.classList.remove('is-invalid');
+            email.classList.add('is-valid');
+        }
+
+        // Password validation
+        if (!password.value || password.value.length < 1) {
+            password.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            password.classList.remove('is-invalid');
+            password.classList.add('is-valid');
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // Remove validation classes on input
+    document.querySelectorAll('input[type="email"], input[type="password"]').forEach(field => {
+        field.addEventListener('input', function () {
+            this.classList.remove('is-invalid', 'is-valid');
+        });
+    });
+
+    // Auto-dismiss alerts after 5 seconds
+    setTimeout(function () {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            if (alert.classList.contains('alert-success')) {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
             }
         });
-        
-        // Form validation
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const email = document.getElementById('email');
-            const password = document.getElementById('password');
-            let isValid = true;
-            
-            // Email validation
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email.value || !emailPattern.test(email.value)) {
-                email.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                email.classList.remove('is-invalid');
-                email.classList.add('is-valid');
-            }
-            
-            // Password validation
-            if (!password.value || password.value.length < 1) {
-                password.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                password.classList.remove('is-invalid');
-                password.classList.add('is-valid');
-            }
-            
-            if (!isValid) {
-                e.preventDefault();
-                return false;
-            }
-        });
-        
-        // Remove validation classes on input
-        document.querySelectorAll('input[type="email"], input[type="password"]').forEach(field => {
-            field.addEventListener('input', function() {
-                this.classList.remove('is-invalid', 'is-valid');
-            });
-        });
-        
-        // Auto-dismiss alerts after 5 seconds
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                if (alert.classList.contains('alert-success')) {
-                    const bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                }
-            });
-        }, 5000);
-    </script>
+    }, 5000);
+</script>
 {% endblock scripts %}

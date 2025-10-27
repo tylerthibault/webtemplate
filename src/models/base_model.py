@@ -15,6 +15,7 @@ class BaseModel(db.Model):
     __abstract__ = True
     
     # Common fields for all models
+    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, 
@@ -22,6 +23,16 @@ class BaseModel(db.Model):
         default=datetime.utcnow, 
         onupdate=datetime.utcnow
     )
+    
+    @property
+    def id(self):
+        """Alias for _id to maintain compatibility with foreign key references."""
+        return self._id
+    
+    @id.setter
+    def id(self, value):
+        """Setter for id property."""
+        self._id = value
     
     def save(self):
         """Save the current instance to the database."""
@@ -97,4 +108,4 @@ class BaseModel(db.Model):
     
     def __repr__(self):
         """String representation of the model instance."""
-        return f"<{self.__class__.__name__}(id={getattr(self, 'id', 'None')})>"
+        return f"<{self.__class__.__name__}(_id={getattr(self, '_id', 'None')})>"

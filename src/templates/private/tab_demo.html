@@ -1,0 +1,243 @@
+{% extends "bases/private.html" %}
+
+{% block title %}Tab Component Demo{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/components/tabs.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3 mb-4">Tab Component Demo</h1>
+            
+            <!-- Example 1: Basic Tabs -->
+            <div class="card mb-4" data-tab-container="demo-basic">
+                <div class="card-header">
+                    <h5 class="card-title mb-3">Basic Tab Example</h5>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile" 
+                                    data-tab-id="profile" type="button" role="tab">
+                                Profile
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settings" 
+                                    data-tab-id="settings" type="button" role="tab">
+                                Settings
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#security" 
+                                    data-tab-id="security" type="button" role="tab">
+                                Security
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                            <h4>Profile Information</h4>
+                            <p>This tab will be remembered when you refresh the page. Try switching to another tab and refreshing!</p>
+                            <div class="alert alert-info">
+                                <strong>Tip:</strong> The tab state is saved to localStorage with key "activeTab_demo-basic"
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="settings" role="tabpanel">
+                            <h4>Application Settings</h4>
+                            <p>Configure your application preferences here.</p>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="theme" class="form-label">Theme</label>
+                                    <select class="form-select" id="theme">
+                                        <option>Light</option>
+                                        <option>Dark</option>
+                                        <option>Auto</option>
+                                    </select>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="notifications">
+                                    <label class="form-check-label" for="notifications">
+                                        Enable notifications
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="security" role="tabpanel">
+                            <h4>Security Settings</h4>
+                            <p>Manage your account security and privacy settings.</p>
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Two-Factor Authentication</h6>
+                                        <span class="badge bg-success">Enabled</span>
+                                    </div>
+                                    <p class="mb-1">Add an extra layer of security to your account.</p>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Login Notifications</h6>
+                                        <span class="badge bg-primary">Active</span>
+                                    </div>
+                                    <p class="mb-1">Get notified when someone logs into your account.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 2: Pills Style -->
+            <div class="card mb-4" data-tab-container="demo-pills">
+                <div class="card-header">
+                    <h5 class="card-title mb-3">Pills Style Example</h5>
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#overview" 
+                                    data-tab-id="overview" type="button" role="tab">
+                                Overview
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#analytics" 
+                                    data-tab-id="analytics" type="button" role="tab">
+                                Analytics
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#reports" 
+                                    data-tab-id="reports" type="button" role="tab">
+                                Reports
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                            <h4>Dashboard Overview</h4>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card text-white bg-primary">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Total Users</h5>
+                                            <h2>1,234</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-white bg-success">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Active Sessions</h5>
+                                            <h2>456</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card text-white bg-info">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Revenue</h5>
+                                            <h2>$12,345</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="analytics" role="tabpanel">
+                            <h4>Analytics Dashboard</h4>
+                            <p>Advanced analytics and insights would be loaded here.</p>
+                            <div class="alert alert-warning">
+                                <strong>Lazy Loading:</strong> In a real application, you might load analytics data only when this tab is activated.
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="reports" role="tabpanel">
+                            <h4>Reports Center</h4>
+                            <p>Generate and download various reports.</p>
+                            <div class="list-group">
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    User Activity Report
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    Financial Summary
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    Performance Metrics
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 3: URL Hash Navigation -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">URL Hash Navigation Demo</h5>
+                </div>
+                <div class="card-body">
+                    <p>Try clicking these links to see URL hash navigation in action:</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="#profile" class="btn btn-outline-primary btn-sm">Go to Profile Tab</a>
+                        <a href="#settings" class="btn btn-outline-secondary btn-sm">Go to Settings Tab</a>
+                        <a href="#security" class="btn btn-outline-warning btn-sm">Go to Security Tab</a>
+                        <a href="#overview" class="btn btn-outline-info btn-sm">Go to Overview Tab</a>
+                        <a href="#analytics" class="btn btn-outline-success btn-sm">Go to Analytics Tab</a>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            Notice how the URL changes and the tabs activate automatically!
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 4: Event Monitoring -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Event Monitoring</h5>
+                </div>
+                <div class="card-body">
+                    <p>This panel shows tab change events in real-time:</p>
+                    <div id="eventLog" class="border rounded p-3 bg-light" style="height: 200px; overflow-y: auto;">
+                        <small class="text-muted">Tab events will appear here...</small>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="clearEventLog()">
+                        Clear Log
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Event monitoring for demonstration
+document.addEventListener('tabChanged', function(event) {
+    const { tabId, containerId } = event.detail;
+    logEvent(`Tab Changed: "${tabId}" in container "${containerId}"`);
+});
+
+function logEvent(message) {
+    const eventLog = document.getElementById('eventLog');
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = document.createElement('div');
+    logEntry.className = 'border-bottom pb-1 mb-1';
+    logEntry.innerHTML = `<small class="text-muted">${timestamp}</small> - ${message}`;
+    eventLog.appendChild(logEntry);
+    eventLog.scrollTop = eventLog.scrollHeight;
+}
+
+function clearEventLog() {
+    const eventLog = document.getElementById('eventLog');
+    eventLog.innerHTML = '<small class="text-muted">Tab events will appear here...</small>';
+}
+
+// Log initial page load
+document.addEventListener('DOMContentLoaded', function() {
+    logEvent('Page loaded - Tab component initialized');
+});
+</script>
+{% endblock %}

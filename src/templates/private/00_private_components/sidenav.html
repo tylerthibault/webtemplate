@@ -1,0 +1,121 @@
+<div class="text-center navbar-container text-dark d-flex flex-column align-items-center justify-content-between">
+    <div class="d-flex flex-column align-items-center">
+        <div class="user-icon">
+            {% include '00_app_components/svgs/user_icon_default.html' %}
+        </div>
+        <!-- Brand / Logo -->
+        <h1 class="mb-4 text-white">MyApp</h1>
+    </div>
+
+    <!-- nav section -->
+    <div>
+        <!-- nav section header -->
+        <h2 class="nav-heading">Navigation</h2>
+        <ul class="nav-button-container">
+            <!-- Common navigation items for all authenticated users -->
+            <li class="nav-button">
+                <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-button">
+                <a href="{{ url_for('main.tab_demo') }}">Tab Demo</a>
+            </li>
+            <li class="nav-button">
+                <a href="{{ url_for('main.modal_demo') }}">Modal Demo</a>
+            </li>
+        </ul>
+    </div>
+
+    {% set current_roles = g.current_user.get_roles() %}
+
+    <!-- Admin or Superuser section using macro -->
+    <div>
+        <h2 class="nav-heading">Admin</h2>
+        <ul class="nav-button-container">
+            {% if 'admin' in current_roles %}
+            <!-- Admin-specific items -->
+            <li class="nav-button">
+                <a href="#">Content Management</a>
+            </li>
+            <li class="nav-button">
+                <a href="#">Reports</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div>
+        <h2 class="nav-heading">Superuser</h2>
+        <ul class="nav-button-container">
+            {% if 'superuser' in current_roles %}
+            <!-- Superuser-specific items -->
+            <li class="nav-button">
+                <a href="{{ url_for('superuser.user_management') }}">User Management</a>
+            </li>
+            <li class="nav-button">
+                <a href="#">System Settings</a>
+            </li>
+            {% endif %}
+
+            {% if 'user' in current_roles %}
+            <!-- User-specific items -->
+            <li class="nav-button">
+                <a href="#">Profile</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div>
+        <!-- nav section header -->
+        <h2 class="nav-heading">App Settings</h2>
+        <ul class="nav-button-container">
+            <li class="nav-button">
+                <a href="#">settings</a>
+            </li>
+            <li class="nav-button">
+                <a href="#">Logout</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<style>
+    .nav-heading {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: lighter !important;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+
+    .user-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1rem;
+    }
+
+    .navbar-container {
+        position: sticky;
+        top: 0;
+        padding: 1rem;
+        height: 100vh;
+    }
+
+    .nav-button-container {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .nav-button a {
+        color: #fff;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        display: block;
+    }
+
+    .nav-button:hover {
+        background-color: #495057;
+        border-radius: 4px;
+    }
+</style>

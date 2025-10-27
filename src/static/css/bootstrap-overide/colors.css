@@ -1,0 +1,590 @@
+/* =================================================================
+   BOOTSTRAP COLOR OVERRIDES
+   Using CSS variables from main.css for consistent theming
+   ================================================================= */
+
+/* =================================================================
+   BACKGROUND COLOR UTILITIES
+   ================================================================= */
+
+/* Primary Background Colors */
+.bg-primary {
+    background-color: var(--color-primary) !important;
+}
+
+.bg-primary-light {
+    background-color: var(--color-primary-light) !important;
+}
+
+.bg-primary-dark {
+    background-color: var(--color-primary-dark) !important;
+}
+
+/* Secondary Background Colors */
+.bg-secondary {
+    background-color: var(--color-secondary) !important;
+}
+
+.bg-secondary-light {
+    background-color: var(--color-secondary-light) !important;
+}
+
+.bg-secondary-dark {
+    background-color: var(--color-secondary-dark) !important;
+}
+
+/* Accent Background Colors */
+.bg-accent {
+    background-color: var(--color-accent) !important;
+}
+
+.bg-accent-light {
+    background-color: var(--color-accent-light) !important;
+}
+
+.bg-accent-dark {
+    background-color: var(--color-accent-dark) !important;
+}
+
+/* Status Background Colors */
+.bg-success {
+    background-color: var(--color-success) !important;
+}
+
+.bg-success-light {
+    background-color: var(--color-success-light) !important;
+}
+
+.bg-success-dark {
+    background-color: var(--color-success-dark) !important;
+}
+
+.bg-warning {
+    background-color: var(--color-warning) !important;
+}
+
+.bg-warning-light {
+    background-color: var(--color-warning-light) !important;
+}
+
+.bg-warning-dark {
+    background-color: var(--color-warning-dark) !important;
+}
+
+.bg-danger {
+    background-color: var(--color-danger) !important;
+}
+
+.bg-danger-light {
+    background-color: var(--color-danger-light) !important;
+}
+
+.bg-danger-dark {
+    background-color: var(--color-danger-dark) !important;
+}
+
+/* Theme Background Colors */
+.bg-body {
+    background-color: var(--bg-primary) !important;
+}
+
+.bg-body-secondary {
+    background-color: var(--bg-secondary) !important;
+}
+
+.bg-body-tertiary {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* =================================================================
+   TEXT COLOR UTILITIES
+   ================================================================= */
+
+/* Primary Text Colors */
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-primary-light {
+    color: var(--color-primary-light) !important;
+}
+
+.text-primary-dark {
+    color: var(--color-primary-dark) !important;
+}
+
+/* Secondary Text Colors */
+.text-secondary {
+    color: var(--color-secondary) !important;
+}
+
+.text-secondary-light {
+    color: var(--color-secondary-light) !important;
+}
+
+.text-secondary-dark {
+    color: var(--color-secondary-dark) !important;
+}
+
+/* Accent Text Colors */
+.text-accent {
+    color: var(--color-accent) !important;
+}
+
+.text-accent-light {
+    color: var(--color-accent-light) !important;
+}
+
+.text-accent-dark {
+    color: var(--color-accent-dark) !important;
+}
+
+/* Status Text Colors */
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.text-success-light {
+    color: var(--color-success-light) !important;
+}
+
+.text-success-dark {
+    color: var(--color-success-dark) !important;
+}
+
+.text-warning {
+    color: var(--color-warning) !important;
+}
+
+.text-warning-light {
+    color: var(--color-warning-light) !important;
+}
+
+.text-warning-dark {
+    color: var(--color-warning-dark) !important;
+}
+
+.text-danger {
+    color: var(--color-danger) !important;
+}
+
+.text-danger-light {
+    color: var(--color-danger-light) !important;
+}
+
+.text-danger-dark {
+    color: var(--color-danger-dark) !important;
+}
+
+/* Theme Text Colors */
+.text-body {
+    color: var(--text-primary) !important;
+}
+
+.text-body-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-light {
+    color: var(--text-inverse) !important;
+}
+
+.text-dark {
+    color: var(--text-primary) !important;
+}
+
+/* =================================================================
+   BORDER COLOR UTILITIES
+   ================================================================= */
+
+/* Primary Border Colors */
+.border-primary {
+    border-color: var(--color-primary) !important;
+}
+
+.border-primary-light {
+    border-color: var(--color-primary-light) !important;
+}
+
+.border-primary-dark {
+    border-color: var(--color-primary-dark) !important;
+}
+
+/* Secondary Border Colors */
+.border-secondary {
+    border-color: var(--color-secondary) !important;
+}
+
+.border-secondary-light {
+    border-color: var(--color-secondary-light) !important;
+}
+
+.border-secondary-dark {
+    border-color: var(--color-secondary-dark) !important;
+}
+
+/* Accent Border Colors */
+.border-accent {
+    border-color: var(--color-accent) !important;
+}
+
+.border-accent-light {
+    border-color: var(--color-accent-light) !important;
+}
+
+.border-accent-dark {
+    border-color: var(--color-accent-dark) !important;
+}
+
+/* Status Border Colors */
+.border-success {
+    border-color: var(--color-success) !important;
+}
+
+.border-success-light {
+    border-color: var(--color-success-light) !important;
+}
+
+.border-success-dark {
+    border-color: var(--color-success-dark) !important;
+}
+
+.border-warning {
+    border-color: var(--color-warning) !important;
+}
+
+.border-warning-light {
+    border-color: var(--color-warning-light) !important;
+}
+
+.border-warning-dark {
+    border-color: var(--color-warning-dark) !important;
+}
+
+.border-danger {
+    border-color: var(--color-danger) !important;
+}
+
+.border-danger-light {
+    border-color: var(--color-danger-light) !important;
+}
+
+.border-danger-dark {
+    border-color: var(--color-danger-dark) !important;
+}
+
+/* Theme Border Colors */
+.border-light {
+    border-color: var(--border-primary) !important;
+}
+
+.border-dark {
+    border-color: var(--border-secondary) !important;
+}
+
+.border-body {
+    border-color: var(--border-primary) !important;
+}
+
+/* =================================================================
+   HOVER STATE UTILITIES
+   ================================================================= */
+
+/* Background Hover States */
+.bg-primary-hover:hover {
+    background-color: var(--color-primary-dark) !important;
+}
+
+.bg-secondary-hover:hover {
+    background-color: var(--color-secondary-dark) !important;
+}
+
+.bg-accent-hover:hover {
+    background-color: var(--color-accent-dark) !important;
+}
+
+.bg-success-hover:hover {
+    background-color: var(--color-success-dark) !important;
+}
+
+.bg-warning-hover:hover {
+    background-color: var(--color-warning-dark) !important;
+}
+
+.bg-danger-hover:hover {
+    background-color: var(--color-danger-dark) !important;
+}
+
+/* Text Hover States */
+.text-primary-hover:hover {
+    color: var(--color-primary-dark) !important;
+}
+
+.text-secondary-hover:hover {
+    color: var(--color-secondary-dark) !important;
+}
+
+.text-accent-hover:hover {
+    color: var(--color-accent-dark) !important;
+}
+
+.text-success-hover:hover {
+    color: var(--color-success-dark) !important;
+}
+
+.text-warning-hover:hover {
+    color: var(--color-warning-dark) !important;
+}
+
+.text-danger-hover:hover {
+    color: var(--color-danger-dark) !important;
+}
+
+/* Border Hover States */
+.border-primary-hover:hover {
+    border-color: var(--color-primary-dark) !important;
+}
+
+.border-secondary-hover:hover {
+    border-color: var(--color-secondary-dark) !important;
+}
+
+.border-accent-hover:hover {
+    border-color: var(--color-accent-dark) !important;
+}
+
+.border-success-hover:hover {
+    border-color: var(--color-success-dark) !important;
+}
+
+.border-warning-hover:hover {
+    border-color: var(--color-warning-dark) !important;
+}
+
+.border-danger-hover:hover {
+    border-color: var(--color-danger-dark) !important;
+}
+
+/* =================================================================
+   GRADIENT UTILITIES
+   ================================================================= */
+
+/* Background Gradients */
+.bg-gradient-primary {
+    background: var(--gradient-primary) !important;
+}
+
+.bg-gradient-secondary {
+    background: var(--gradient-secondary) !important;
+}
+
+.bg-gradient-accent {
+    background: var(--gradient-accent) !important;
+}
+
+.bg-gradient-success {
+    background: var(--gradient-success) !important;
+}
+
+.bg-gradient-warning {
+    background: var(--gradient-warning) !important;
+}
+
+.bg-gradient-danger {
+    background: var(--gradient-danger) !important;
+}
+
+.bg-gradient-subtle {
+    background: var(--gradient-bg-subtle) !important;
+}
+
+.bg-gradient-soft {
+    background: var(--gradient-bg-soft) !important;
+}
+
+/* Radial Gradients */
+.bg-gradient-primary-radial {
+    background: var(--gradient-primary-radial) !important;
+}
+
+.bg-gradient-accent-radial {
+    background: var(--gradient-accent-radial) !important;
+}
+
+/* =================================================================
+   FOCUS STATE UTILITIES
+   ================================================================= */
+
+.focus-primary:focus,
+.focus-primary:focus-visible {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-primary), 0.25) !important;
+}
+
+.focus-accent:focus,
+.focus-accent:focus-visible {
+    border-color: var(--color-accent) !important;
+    box-shadow: 0 0 0 0.25rem rgba(var(--color-accent), 0.25) !important;
+}
+
+/* =================================================================
+   BUTTON OVERRIDE UTILITIES
+   ================================================================= */
+
+/* Custom Button Variants */
+.btn-accent {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--text-inverse);
+}
+
+.btn-accent:hover {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+    color: var(--text-inverse);
+}
+
+.btn-outline-accent {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background-color: transparent;
+}
+
+.btn-outline-accent:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--text-inverse);
+}
+
+/* Override Bootstrap's default button colors */
+.btn-primary {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark) !important;
+    border-color: var(--color-primary-dark) !important;
+}
+
+.btn-secondary {
+    background-color: var(--color-secondary) !important;
+    border-color: var(--color-secondary) !important;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-secondary-dark) !important;
+    border-color: var(--color-secondary-dark) !important;
+}
+
+.btn-success {
+    background-color: var(--color-success) !important;
+    border-color: var(--color-success) !important;
+}
+
+.btn-success:hover {
+    background-color: var(--color-success-dark) !important;
+    border-color: var(--color-success-dark) !important;
+}
+
+.btn-warning {
+    background-color: var(--color-warning) !important;
+    border-color: var(--color-warning) !important;
+}
+
+.btn-warning:hover {
+    background-color: var(--color-warning-dark) !important;
+    border-color: var(--color-warning-dark) !important;
+}
+
+.btn-danger {
+    background-color: var(--color-danger) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.btn-danger:hover {
+    background-color: var(--color-danger-dark) !important;
+    border-color: var(--color-danger-dark) !important;
+}
+
+/* =================================================================
+   SHADOW UTILITIES
+   ================================================================= */
+
+.shadow-sm-custom {
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.shadow-custom {
+    box-shadow: var(--shadow-md) !important;
+}
+
+.shadow-lg-custom {
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* =================================================================
+   LINK COLOR UTILITIES
+   ================================================================= */
+
+.link-primary {
+    color: var(--color-primary) !important;
+    text-decoration: none;
+}
+
+.link-primary:hover {
+    color: var(--color-primary-dark) !important;
+    text-decoration: underline;
+}
+
+.link-accent {
+    color: var(--color-accent) !important;
+    text-decoration: none;
+}
+
+.link-accent:hover {
+    color: var(--color-accent-dark) !important;
+    text-decoration: underline;
+}
+
+.link-secondary {
+    color: var(--color-secondary) !important;
+    text-decoration: none;
+}
+
+.link-secondary:hover {
+    color: var(--color-secondary-dark) !important;
+    text-decoration: underline;
+}
+
+/* =================================================================
+   OPACITY VARIANTS
+   ================================================================= */
+
+.bg-primary-10 {
+    background-color: rgba(var(--color-primary), 0.1) !important;
+}
+
+.bg-primary-25 {
+    background-color: rgba(var(--color-primary), 0.25) !important;
+}
+
+.bg-primary-50 {
+    background-color: rgba(var(--color-primary), 0.5) !important;
+}
+
+.bg-accent-10 {
+    background-color: rgba(var(--color-accent), 0.1) !important;
+}
+
+.bg-accent-25 {
+    background-color: rgba(var(--color-accent), 0.25) !important;
+}
+
+.bg-accent-50 {
+    background-color: rgba(var(--color-accent), 0.5) !important;
+}

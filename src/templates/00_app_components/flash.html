@@ -1,0 +1,586 @@
+<!-- Flash Messages Component - Toast Notifications -->
+<!-- Shows general flash messages (error, success, warning, info) in lower right corner -->
+<!-- Excludes specific form-related messages that should display inline -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-container" id="flashContainer">
+            {% for category, message in messages %}
+                <!-- Only show general categories, not specific form errors -->
+                {% if category in ['error', 'success', 'warning', 'info', 'danger'] %}
+                    <div class="toast flash-toast" role="alert" aria-live="assertive" aria-atomic="true" 
+                         data-bs-autohide="true" data-bs-delay="{{ '5000' if category == 'success' else '7000' if category in ['error', 'danger'] else '4000' }}">
+                        <div class="toast-header">
+                            <!-- Icon based on message type -->
+                            {% if category == 'success' %}
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong class="me-auto text-success">Success</strong>
+                            {% elif category in ['error', 'danger'] %}
+                                <i class="fas fa-exclamation-circle text-danger me-2"></i>
+                                <strong class="me-auto text-danger">Error</strong>
+                            {% elif category == 'warning' %}
+                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                <strong class="me-auto text-warning">Warning</strong>
+                            {% elif category == 'info' %}
+                                <i class="fas fa-info-circle text-info me-2"></i>
+                                <strong class="me-auto text-info">Information</strong>
+                            {% endif %}
+                            
+                            <small class="text-muted">just now</small>
+                            
+                            <!-- Copy to clipboard button -->
+                            <button type="button" class="btn btn-sm copy-btn me-2" title="Copy message to clipboard" aria-label="Copy message">
+                                <i class="fas fa-copy"></i>
+                                <span class="copy-fallback">📋</span>
+                            </button>
+                            
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body" data-message="{{ message|e }}">
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<!-- FontAwesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+/* Flash Toast Container */
+.flash-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 350px;
+}
+
+/* Individual Toast Styling */
+.flash-toast {
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-lg, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    animation: slideInRight 0.3s ease-out;
+    background: white; /* Ensure white background for entire toast */
+}
+
+/* Success Toast */
+.flash-toast .toast-header:has(.text-success) {
+    background: linear-gradient(135deg, var(--color-success, #16a34a), #22c55e);
+    color: white;
+    border-bottom: none;
+}
+
+.flash-toast .toast-header:has(.text-success) .text-success {
+    color: white !important;
+}
+
+.flash-toast .toast-header:has(.text-success) .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.flash-toast .toast-header:has(.text-success) .btn-close {
+    filter: invert(1);
+}
+
+/* Error Toast */
+.flash-toast .toast-header:has(.text-danger) {
+    background: linear-gradient(135deg, var(--color-danger, #dc2626), #ef4444);
+    color: white;
+    border-bottom: none;
+}
+
+.flash-toast .toast-header:has(.text-danger) .text-danger {
+    color: white !important;
+}
+
+.flash-toast .toast-header:has(.text-danger) .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.flash-toast .toast-header:has(.text-danger) .btn-close {
+    filter: invert(1);
+}
+
+/* Warning Toast */
+.flash-toast .toast-header:has(.text-warning) {
+    background: linear-gradient(135deg, var(--color-warning, #d97706), #f59e0b);
+    color: white;
+    border-bottom: none;
+}
+
+.flash-toast .toast-header:has(.text-warning) .text-warning {
+    color: white !important;
+}
+
+.flash-toast .toast-header:has(.text-warning) .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.flash-toast .toast-header:has(.text-warning) .btn-close {
+    filter: invert(1);
+}
+
+/* Info Toast */
+.flash-toast .toast-header:has(.text-info) {
+    background: linear-gradient(135deg, var(--color-primary, #2563eb), #3b82f6);
+    color: white;
+    border-bottom: none;
+}
+
+.flash-toast .toast-header:has(.text-info) .text-info {
+    color: white !important;
+}
+
+.flash-toast .toast-header:has(.text-info) .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.flash-toast .toast-header:has(.text-info) .btn-close {
+    filter: invert(1);
+}
+
+/* Copy Button Styling */
+.flash-toast .copy-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flash-toast .copy-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.flash-toast .copy-btn:active {
+    transform: scale(0.95);
+}
+
+.flash-toast .copy-btn.copied {
+    color: white;
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.flash-toast .copy-btn.copied i::before {
+    content: "\f00c"; /* FontAwesome check icon */
+}
+
+/* Copy button icon fallback */
+.flash-toast .copy-btn .copy-fallback {
+    display: none;
+    font-size: 1rem;
+}
+
+/* Show fallback if FontAwesome fails to load */
+.flash-toast .copy-btn i:empty + .copy-fallback,
+.flash-toast .copy-btn:not(:has(i)) .copy-fallback {
+    display: inline;
+}
+
+.flash-toast .copy-btn:has(.copy-fallback:only-child) i {
+    display: none;
+}
+
+/* Hover pause indicator */
+.flash-toast.paused::after {
+    content: "⏸️ Paused";
+    position: absolute;
+    top: -25px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    z-index: 1;
+}
+
+/* Toast Body */
+.flash-toast .toast-body {
+    background: white;
+    color: #1f2937 !important; /* Force dark text on white background */
+    padding: 15px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .flash-container {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .flash-toast {
+        margin-bottom: 5px;
+    }
+}
+
+/* Hide toasts when they're being dismissed */
+.flash-toast.hiding {
+    animation: slideOutRight 0.3s ease-in forwards;
+}
+
+/* Accessibility improvements */
+.flash-toast:focus-within {
+    outline: 2px solid var(--color-primary, #2563eb);
+    outline-offset: 2px;
+}
+
+/* Print styles - hide flash messages when printing */
+@media print {
+    .flash-container {
+        display: none !important;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all toast notifications
+    const flashContainer = document.getElementById('flashContainer');
+    if (flashContainer) {
+        const toasts = flashContainer.querySelectorAll('.toast');
+        
+        toasts.forEach((toastElement, index) => {
+            // Stagger the appearance of multiple toasts
+            setTimeout(() => {
+                const toast = new bootstrap.Toast(toastElement, {
+                    autohide: true,
+                    delay: parseInt(toastElement.dataset.bsDelay) || 5000
+                });
+                
+                // Variables for hover pause functionality
+                let isPaused = false;
+                let remainingTime = parseInt(toastElement.dataset.bsDelay) || 5000;
+                let startTime = Date.now();
+                let pauseTimeout;
+                
+                // Show the toast
+                toast.show();
+                
+                // Hover pause functionality
+                toastElement.addEventListener('mouseenter', function() {
+                    if (!isPaused) {
+                        isPaused = true;
+                        remainingTime = remainingTime - (Date.now() - startTime);
+                        clearTimeout(pauseTimeout);
+                        this.classList.add('paused');
+                        
+                        // Pause the Bootstrap toast
+                        this.removeAttribute('data-bs-autohide');
+                    }
+                });
+                
+                toastElement.addEventListener('mouseleave', function() {
+                    if (isPaused) {
+                        isPaused = false;
+                        startTime = Date.now();
+                        this.classList.remove('paused');
+                        
+                        // Resume the auto-hide with remaining time
+                        pauseTimeout = setTimeout(() => {
+                            toast.hide();
+                        }, remainingTime);
+                    }
+                });
+                
+                // Copy to clipboard functionality
+                const copyBtn = toastElement.querySelector('.copy-btn');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', async function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        
+                        const messageElement = toastElement.querySelector('.toast-body');
+                        const messageText = messageElement.getAttribute('data-message') || messageElement.textContent;
+                        
+                        try {
+                            await navigator.clipboard.writeText(messageText);
+                            
+                            // Visual feedback
+                            this.classList.add('copied');
+                            const originalIcon = this.querySelector('i');
+                            const fallbackIcon = this.querySelector('.copy-fallback');
+                            
+                            if (originalIcon) {
+                                originalIcon.classList.remove('fa-copy');
+                                originalIcon.classList.add('fa-check');
+                            }
+                            if (fallbackIcon) {
+                                fallbackIcon.textContent = '✅';
+                            }
+                            
+                            // Reset after 2 seconds
+                            setTimeout(() => {
+                                this.classList.remove('copied');
+                                if (originalIcon) {
+                                    originalIcon.classList.remove('fa-check');
+                                    originalIcon.classList.add('fa-copy');
+                                }
+                                if (fallbackIcon) {
+                                    fallbackIcon.textContent = '📋';
+                                }
+                            }, 2000);
+                            
+                        } catch (err) {
+                            // Fallback for older browsers
+                            const textArea = document.createElement('textarea');
+                            textArea.value = messageText;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            
+                            // Visual feedback
+                            this.classList.add('copied');
+                            const fallbackIcon = this.querySelector('.copy-fallback');
+                            if (fallbackIcon) {
+                                fallbackIcon.textContent = '✅';
+                            }
+                            
+                            setTimeout(() => {
+                                this.classList.remove('copied');
+                                if (fallbackIcon) {
+                                    fallbackIcon.textContent = '📋';
+                                }
+                            }, 2000);
+                        }
+                    });
+                }
+                
+                // Add hiding animation before removal
+                toastElement.addEventListener('hide.bs.toast', function() {
+                    this.classList.add('hiding');
+                });
+                
+                // Clean up after toast is hidden
+                toastElement.addEventListener('hidden.bs.toast', function() {
+                    this.remove();
+                    
+                    // If no more toasts, remove the container
+                    if (flashContainer.children.length === 0) {
+                        flashContainer.remove();
+                    }
+                });
+                
+                // Add click to dismiss functionality (optional)
+                const toastBody = toastElement.querySelector('.toast-body');
+                if (toastBody) {
+                    toastBody.style.cursor = 'pointer';
+                    toastBody.addEventListener('click', function() {
+                        toast.hide();
+                    });
+                }
+                
+            }, index * 200); // 200ms delay between each toast
+        });
+    }
+    
+    // Function to programmatically add flash messages (for AJAX requests)
+    window.addFlashMessage = function(category, message) {
+        if (!['error', 'success', 'warning', 'info', 'danger'].includes(category)) {
+            return; // Only handle general categories
+        }
+        
+        let container = document.getElementById('flashContainer');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'flashContainer';
+            container.className = 'flash-container';
+            document.body.appendChild(container);
+        }
+        
+        // Create toast element
+        const toastHTML = `
+            <div class="toast flash-toast" role="alert" aria-live="assertive" aria-atomic="true" 
+                 data-bs-autohide="true" data-bs-delay="${category === 'success' ? '5000' : category === 'error' || category === 'danger' ? '7000' : '4000'}">
+                <div class="toast-header">
+                    ${getToastIcon(category)}
+                    <strong class="me-auto text-${category === 'danger' ? 'danger' : category}">${getToastTitle(category)}</strong>
+                    <small class="text-muted">just now</small>
+                    <button type="button" class="btn btn-sm copy-btn me-2" title="Copy message to clipboard" aria-label="Copy message">
+                        <i class="fas fa-copy"></i>
+                        <span class="copy-fallback">📋</span>
+                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" data-message="${message.replace(/"/g, '&quot;')}">
+                    ${message}
+                </div>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', toastHTML);
+        
+        // Initialize and show the new toast
+        const newToast = container.lastElementChild;
+        const toast = new bootstrap.Toast(newToast);
+        
+        // Add hover pause functionality
+        let isPaused = false;
+        let remainingTime = parseInt(newToast.dataset.bsDelay) || 5000;
+        let startTime = Date.now();
+        let pauseTimeout;
+        
+        newToast.addEventListener('mouseenter', function() {
+            if (!isPaused) {
+                isPaused = true;
+                remainingTime = remainingTime - (Date.now() - startTime);
+                clearTimeout(pauseTimeout);
+                this.classList.add('paused');
+                this.removeAttribute('data-bs-autohide');
+            }
+        });
+        
+        newToast.addEventListener('mouseleave', function() {
+            if (isPaused) {
+                isPaused = false;
+                startTime = Date.now();
+                this.classList.remove('paused');
+                pauseTimeout = setTimeout(() => {
+                    toast.hide();
+                }, remainingTime);
+            }
+        });
+        
+        // Add copy functionality
+        const copyBtn = newToast.querySelector('.copy-btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', async function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                const messageElement = newToast.querySelector('.toast-body');
+                const messageText = messageElement.getAttribute('data-message') || messageElement.textContent;
+                
+                try {
+                    await navigator.clipboard.writeText(messageText);
+                    this.classList.add('copied');
+                    const originalIcon = this.querySelector('i');
+                    const fallbackIcon = this.querySelector('.copy-fallback');
+                    
+                    if (originalIcon) {
+                        originalIcon.classList.remove('fa-copy');
+                        originalIcon.classList.add('fa-check');
+                    }
+                    if (fallbackIcon) {
+                        fallbackIcon.textContent = '✅';
+                    }
+                    
+                    setTimeout(() => {
+                        this.classList.remove('copied');
+                        if (originalIcon) {
+                            originalIcon.classList.remove('fa-check');
+                            originalIcon.classList.add('fa-copy');
+                        }
+                        if (fallbackIcon) {
+                            fallbackIcon.textContent = '📋';
+                        }
+                    }, 2000);
+                    
+                } catch (err) {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = messageText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    this.classList.add('copied');
+                    const fallbackIcon = this.querySelector('.copy-fallback');
+                    if (fallbackIcon) {
+                        fallbackIcon.textContent = '✅';
+                    }
+                    
+                    setTimeout(() => {
+                        this.classList.remove('copied');
+                        if (fallbackIcon) {
+                            fallbackIcon.textContent = '📋';
+                        }
+                    }, 2000);
+                }
+            });
+        }
+        
+        newToast.addEventListener('hide.bs.toast', function() {
+            this.classList.add('hiding');
+        });
+        
+        newToast.addEventListener('hidden.bs.toast', function() {
+            this.remove();
+            if (container.children.length === 0) {
+                container.remove();
+            }
+        });
+        
+        toast.show();
+    };
+    
+    // Helper functions for programmatic flash messages
+    function getToastIcon(category) {
+        const icons = {
+            'success': '<i class="fas fa-check-circle text-success me-2"></i>',
+            'error': '<i class="fas fa-exclamation-circle text-danger me-2"></i>',
+            'danger': '<i class="fas fa-exclamation-circle text-danger me-2"></i>',
+            'warning': '<i class="fas fa-exclamation-triangle text-warning me-2"></i>',
+            'info': '<i class="fas fa-info-circle text-info me-2"></i>'
+        };
+        return icons[category] || icons['info'];
+    }
+    
+    function getToastTitle(category) {
+        const titles = {
+            'success': 'Success',
+            'error': 'Error',
+            'danger': 'Error',
+            'warning': 'Warning',
+            'info': 'Information'
+        };
+        return titles[category] || 'Information';
+    }
+});
+</script>
